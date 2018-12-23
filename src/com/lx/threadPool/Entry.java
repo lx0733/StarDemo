@@ -218,6 +218,8 @@ public class Entry {
 		for (int i = 0; i < N; i++) {
 			new Writer(barrier,i).start();
 		}
+		
+		
 		Thread.sleep(20000);
 	}
 
