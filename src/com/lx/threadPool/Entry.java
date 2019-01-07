@@ -249,6 +249,14 @@ public class Entry {
 			System.out.println("所有线程等待完毕，继续处理其他任务...");
 		}
 	}
+	/*
+	 * 
+	 * 
+	 */
+	@Test
+	public void fun08(){
+		
+	}
 	
 	/**
 	 * 感觉用处不大, 可以用来锁住局部代码, 比synchronize代码快好的地方是可以给多个锁(semaphore的许可) 
