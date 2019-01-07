@@ -249,12 +249,40 @@ public class Entry {
 			System.out.println("所有线程等待完毕，继续处理其他任务...");
 		}
 	}
-	/*
-	 * 
+	/**
+	 * 测试LockSurpport
 	 * 
 	 */
 	@Test
 	public void fun08(){
+		for (int i = 0; i < 5; i++) {
+			final int num = i;
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("线程" + num);
+					Thread.currentThread().suspend();
+					if (num == 2) {
+						System.out.println("休眠");
+						try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Thread
+					}
+					System.out.println("线程" + num + "被唤醒");
+				}
+			}).start();
+		}
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("主线程运行");
 		
 	}
 	
