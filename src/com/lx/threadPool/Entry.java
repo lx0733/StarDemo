@@ -95,8 +95,8 @@ public class Entry {
 		/**
 		 * 调用wait()，notify()和notifyAll()的线程在调用这些方法前必须"拥有"对象的锁。
 		 * 当前的线程不是此对象锁的所有者，却调用该对象的notify()，notify()，wait()方法时抛出该异常。
+		 * 即 如果不在同步块中调用wait()方法则抛出 illegalMonitorStateException
 		 */
-
 		Thread thread1 = new Thread(new Runnable() {
 
 			@Override
@@ -249,42 +249,6 @@ public class Entry {
 			System.out.println("所有线程等待完毕，继续处理其他任务...");
 		}
 	}
-	/**
-	 * 测试LockSurpport
-	 * 
-	 */
-	@Test
-	public void fun08(){
-		for (int i = 0; i < 5; i++) {
-			final int num = i;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					System.out.println("线程" + num);
-					Thread.currentThread().suspend();
-					if (num == 2) {
-						System.out.println("休眠");
-						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						Thread
-					}
-					System.out.println("线程" + num + "被唤醒");
-				}
-			}).start();
-		}
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("主线程运行");
-		
-	}
 	
 	/**
 	 * 感觉用处不大, 可以用来锁住局部代码, 比synchronize代码快好的地方是可以给多个锁(semaphore的许可) 
@@ -320,6 +284,55 @@ public class Entry {
             }
         }
     }
+    
+    /**
+	 * 测试Thread类中的过期方法 suspend 和resume
+	 * 
+	 */
+	@Test
+	public void fun08(){
+		List<Thread> threads = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
+			final int num = i;
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					System.out.println("线程" + num);
+					Thread.currentThread().suspend();
+					if (num == 2) {
+						System.out.println("线程" + num +"休眠");
+						
+						try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						//Thread.
+					}
+					System.out.println("线程" + num + "被唤醒");
+				}
+			});
+			threads.add(thread);
+			thread.start();
+			thread.setName("线程"+num);
+		}
+		try {
+			Thread.sleep(5000);
+			threads.get(2).resume();
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("主线程运行");
+		
+	}
+	@Test
+	public void fun09() throws InterruptedException{
+		o1.wait();
+		System.out.println("asdsad");
+	}
 	
 }
 
