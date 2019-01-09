@@ -166,7 +166,7 @@ public class Rabbit {
 	/**
 	 * 题目：求s=a+aa+aaa+aaaa+aa...a的值，其中a是一个数字。
 	 * 例如2+22+222+2222+22222(此时共有5个数相加)，几个数相加有键盘控制。
-	 * 
+	 * 思路：直接拼接字符串
 	 * @throws IOException
 	 */
 	@Test
@@ -177,7 +177,7 @@ public class Rabbit {
 		System.out.println("请输入a的值");
 		String input = stadin.readLine();
 		for (int i = 1; i <= Integer.parseInt(input); i++) {
-			output += input;// 拼接字符串 哈哈哈哈
+			output += input;
 			System.err.println(output);
 			int a = Integer.parseInt(output);
 			System.err.println(a);
@@ -194,11 +194,14 @@ public class Rabbit {
 		int s;
 		for (int i = 1; i <= 1000; i++) {
 			s = 0;
-			for (int j = 1; j < i; j++)
-				if (i % j == 0)
+			for (int j = 1; j < i; j++){
+				if (i % j == 0){
 					s = s + j;
-			if (s == i)
+				}
+			}
+			if (s == i){
 				System.out.print(i + " ");
+			}
 		}
 		System.out.println();
 	}
