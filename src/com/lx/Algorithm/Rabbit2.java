@@ -204,19 +204,18 @@ public class Rabbit2 {
 	 */
 	@Test
 	public void fun09() {
-
+		System.out.println(getAge(5));
 	}
 
-	public int add(int i) {
-		if (i == 10) {
-			return i;
+	int getAge(int n) {
+		if (n == 1) {
+			return 10;
 		}
-		return i + add(i - 2);
+		return 2 + getAge(n - 1);
 	}
 
 	/**
-	 * 题目：给一个不多于5位的正整数，要求：一、求它是几位数，二、逆序打印出各位数字。
-	 * 思路:转字符串; 转字符数组然后倒序循环
+	 * 题目：给一个不多于5位的正整数，要求：一、求它是几位数，二、逆序打印出各位数字。 思路:转字符串; 转字符数组然后倒序循环
 	 */
 	@Test
 	public void fun10() {
