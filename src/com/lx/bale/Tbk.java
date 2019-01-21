@@ -1,6 +1,7 @@
 package com.lx.bale;
 
 import java.io.File;
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +16,13 @@ import org.junit.Test;
 
 
 
-public class Tbk {
+public class Tbk implements Serializable{
+	public Fibonacci f1 = new Fibonacci();
+	
+	public Fibonacci getF1(){
+		return f1;
+	}
+	
 	public static void main(String[] args) {
 		long currentTimeMillis = System.currentTimeMillis();
 	
@@ -25,15 +32,16 @@ public class Tbk {
 		System.out.println(MessageFormat.format(s,"98555","15",String.valueOf(currentTimeMillis)).replace("^", "}").replace("@", "{"));
 	}
 	@Test
-	public void fun(){
-		System.out.println(new Date(1544853361889L));
-		System.out.println(new Random().nextInt(10));
-		System.out.println(new Random().nextInt(10));
-		System.out.println(new Random().nextInt(10));
-		System.out.println(new Random().nextInt(10));
-		System.out.println(new Random().nextInt(10));
-		System.out.println(new Random().nextInt(10));
-		new Segment();
+	public void fun() throws CloneNotSupportedException{
+
+		Tbk t1 = new Tbk();
+		Tbk t2 = (Tbk) t1.clone();
+		System.out.println(t1);
+		System.out.println(t2);
+		System.out.println(t1.f1);
+		System.out.println(t2.f1);
+		//Tbk.class.get
+		
 	}
 	
 }
