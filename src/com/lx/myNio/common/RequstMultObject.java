@@ -2,6 +2,11 @@ package com.lx.myNio.common;
 
 import java.io.Serializable;
 
+/**
+ * 请求时的数据结构
+ * @author Administrator
+ *
+ */
 public class RequstMultObject implements Serializable {
 
     private static final long serialVersionUID = 3132836600205356306L;

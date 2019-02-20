@@ -7,5 +7,6 @@ public class TestClinit {
 		//System.out.println(new ReferenceClass().ss);
 		/*System.out.println(new );*/
 		ParentClass.add(4);
+		
 	}
 }

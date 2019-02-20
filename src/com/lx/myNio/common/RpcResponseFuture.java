@@ -4,6 +4,11 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * 请求数据获取类，用来挂起和唤醒挂起的线程
+ * @author Administrator
+ *
+ */
 public class RpcResponseFuture {
 
     private final Lock lock = new ReentrantLock();

@@ -75,7 +75,7 @@ public class RpcNioMultServer {
                         if (bytes != null && bytes.length > 0) {
                             // 读取之后将任务放入线程池异步返回
                             RpcNioMultServerTask task = new RpcNioMultServerTask(bytes, channel);
-                            ThreadPoolUtil.addTask(task);
+                            ThreadPoolUtil.addTask(task);//其实就是ThreadPoolExecute线程池
                         }
                     }
                 }

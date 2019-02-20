@@ -8,7 +8,7 @@ public class RpcContainer {
     private static ConcurrentHashMap<Long, byte[]> responseContainer = new ConcurrentHashMap<>();
     //请求对象容器
     private static ConcurrentHashMap<Long, RpcResponseFuture> requestFuture = new ConcurrentHashMap<>();
-    //请求id
+    //请求id 原子性long防并发
     private volatile static AtomicLong requstId = new AtomicLong(0);
 
     public static Long getRequestId() {

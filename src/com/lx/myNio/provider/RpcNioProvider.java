@@ -17,6 +17,7 @@ public class RpcNioProvider {
     }
 
     public static void startMultRpcNioServer() {
+    	//jdk8 函数式编程 用变量r引用一个函数
         Runnable r = () -> {
             try {
                 RpcNioMultServer.start();

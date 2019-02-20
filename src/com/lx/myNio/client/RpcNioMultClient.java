@@ -10,6 +10,11 @@ import java.util.Iterator;
 
 import com.lx.myNio.common.RpcContainer;
 
+/**
+ * 客户端
+ * @author Administrator
+ *
+ */
 public class RpcNioMultClient {
 
     private static RpcNioMultClient rpcNioClient;
@@ -117,6 +122,9 @@ public class RpcNioMultClient {
             if (readIdCount < 0) {
                 return;
             }
+            /*
+             *  flip 将缓存字节数组的指针设置为数组的开始序列即数组下标0。这样就可以从buffer开头，对该buffer进行遍历（读取）了
+             */
             byteBuffer.flip();
             Long requsetId = byteBuffer.getLong();
 
@@ -130,7 +138,7 @@ public class RpcNioMultClient {
             byteBuffer.flip();
             int length = byteBuffer.getInt();
 
-            // 读取消息体
+            // 通过上面返回值长度 来分配bytebuffer和读取消息体
             byteBuffer = ByteBuffer.allocate(length);
             int readBodyCount = channel.read(byteBuffer);
             if (readBodyCount < 0) {
