@@ -25,6 +25,7 @@ public class ConditionLock {
         try {
             lock.lock();
             conditionA.await();
+            System.out.println("ssss");
         }catch (InterruptedException e){
             e.printStackTrace();
         }finally {
@@ -44,6 +45,7 @@ public class ConditionLock {
     public void signalAllA(){
         try {
             lock.lock();
+            System.err.println("唤醒所有ConditionA");
             conditionA.signalAll();
         } finally {
             lock.unlock();

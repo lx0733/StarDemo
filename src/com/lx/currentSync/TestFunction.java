@@ -1,12 +1,16 @@
 package com.lx.currentSync;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.junit.Test;
 
 
 
-public class TestFunction {
+public class TestFunction{
+	
+	static ReentrantLock lock = new ReentrantLock();
 	/**
 	 *  测试ReentrantReadWriteLock 读写锁, 读读共享、写写互斥、读写互斥。
 	 *  区别: 
@@ -50,7 +54,7 @@ public class TestFunction {
 				
 				@Override
 				public void run() {
-				if (num / 2 == 0) {
+				if (num % 2 == 0) {
 					System.out.println("线程"+num+"准备执行A");
 					ins.methodA();
 					System.out.println("线程"+num+"唤醒,执行完毕A");
@@ -66,8 +70,94 @@ public class TestFunction {
 		}
 		
 		Thread.sleep(2000);
-		ins.signalAllA();
+		for (int i = 0; i < 2; i++) {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					ins.signalAllA();
+				}
+			}).start();
+		}
 		Thread.sleep(5000);
 		ins.signalAllB();
 	}
+	/**
+	 * ReentrantLock的可重入效果，加锁两次必须要解锁两次才可以
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void fun02() throws InterruptedException {
+		ThreadGroup group = new ThreadGroup("group1");
+		for (int i = 0; i < 5; i++) {
+			final int count = i;
+			new Thread(group,new Runnable() {
+				@Override
+				public void run() {
+					lock.lock();
+					System.out.println(count+"第一层进来了");
+					/*
+					 * lock.lock(); System.out.println(count+"第二层进来了");
+					 */
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					lock.unlock();
+					System.out.println(count+"第一层解锁");
+				}
+			}).start();
+		}
+		int c = 0;
+		while (c<500) {
+			group.list();
+			//System.out.println(group.activeCount());
+			Thread.sleep(200);
+			c ++;
+		}
+		Thread.sleep(500000);
+	}
+	@Test
+	public void fun03() throws InterruptedException {
+		 ThreadGroup group = new ThreadGroup("TestGroup");
+	        new Thread(group, () -> {
+	            while(true) {
+	                try {
+	                    TimeUnit.MILLISECONDS.sleep(2);
+	                } catch (InterruptedException e) {
+	                    //received interrupt signal and clear quickly
+	                    System.out.println(Thread.currentThread().isInterrupted());
+	                    break;
+	                }
+	            }
+	            System.out.println("t1 will exit");
+	        }, "t1").start();
+	        new Thread(group, () -> {
+	            while(true) {
+	                try {
+	                    TimeUnit.MILLISECONDS.sleep(2);
+	                } catch (InterruptedException e) {
+	                    //received interrupt signal and clear quickly
+	                    System.out.println(Thread.currentThread().isInterrupted());
+	                    break;
+	                }
+	            }
+	            System.out.println("t2 will exit");
+	        }, "t2").start();
+	        //make sure all threads start
+	        TimeUnit.MILLISECONDS.sleep(2);
+	        group.interrupt();
+	}
+	
+	
+	@Test
+	public void fun04() throws InterruptedException {
+		while (true) {
+			System.out.println("sss");
+			TimeUnit.SECONDS.sleep(1);
+		}
+	}
+	
 }
