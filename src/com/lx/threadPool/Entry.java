@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
+import org.junit.validator.ValidateWith;
 
 public class Entry {
 	public static Object o1 = new Object();
@@ -333,6 +337,34 @@ public class Entry {
 		o1.wait();
 		System.out.println("asdsad");
 	}
+	
+	@Test
+	public void fun10() throws InterruptedException{
+		ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 5, 1000, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(1000));
+		for (int i = 0; i < 20; i++) {
+			System.out.println("循环次数"+i);
+			final int c= i;
+			Runnable runnable = new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(2000);
+						System.out.println(c+"执行完毕");
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			};
+			pool.execute(runnable);
+		}
+		System.out.println("1111111111");
+		 Thread.sleep(50000);
+		 
+	}
+	
 	
 }
 
