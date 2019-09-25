@@ -1,5 +1,8 @@
 package com.lx.currentSync;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -158,6 +161,94 @@ public class TestFunction{
 			System.out.println("sss");
 			TimeUnit.SECONDS.sleep(1);
 		}
+	}
+	
+	/**
+	 * ThreadGroup里面的线程运行中创建的线程也会归属到此ThreadGroup下
+	 */
+	@Test
+	public void testThreadGroup() throws InterruptedException{
+		ThreadGroup group = new ThreadGroup("group1");
+		for (int i = 0; i < 5; i++) {
+			final int count = i;
+			Thread thread = new Thread(group,new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread thread2 = new Thread(new Runnable() {
+							
+							@Override
+							public void run() {
+								try {
+									Thread.sleep(30000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						});
+						thread2.setName("内部线程");
+						thread2.start();
+						Thread.sleep(50000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.setName("自建线程");
+			thread.start();
+		}
+		int c = 0;
+		while (c<500) {
+			group.list();
+			System.err.println(group.activeCount());
+			Thread.sleep(200);
+			c ++;
+		}
+		Thread.sleep(500000);
+	}
+	
+	@Test
+	public void testTerminate() throws InterruptedException{
+		List<Thread> threads = new ArrayList<Thread>();
+		for (int i = 1; i < 6; i++) {
+			final int count = i;
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(count*1500);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			thread.setName("自建线程-"+count);
+			thread.start();
+			threads.add(thread);
+		}
+		int c = 0;
+		while (c<500) {
+			Iterator<Thread> iterator = threads.iterator();
+			while (iterator.hasNext()) {
+				Thread thread = (Thread) iterator.next();
+				boolean alive = thread.isAlive();
+				if (!alive) {
+					iterator.remove();
+				}
+				System.out.print(thread.getName()+"-"+alive+"  ");
+				
+			}
+			
+			System.out.println();
+			System.out.println();
+			
+			Thread.sleep(1000);
+			c ++;
+		}
+		Thread.sleep(500000);
 	}
 	
 }

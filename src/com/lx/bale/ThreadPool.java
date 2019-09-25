@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class TreadPool extends Pool{
+public class ThreadPool extends Pool{
 
 	/*
 	1. maxSize 
@@ -43,7 +43,7 @@ public class TreadPool extends Pool{
 		}).start();
 	}
 	
-	public TreadPool(Integer maxSize, Integer coreSize, Integer keepAliveTime) {
+	public ThreadPool(Integer maxSize, Integer coreSize, Integer keepAliveTime) {
 		this.maxSize = maxSize;
 		this.coreSize = coreSize;
 		this.keepAliveTime = keepAliveTime;

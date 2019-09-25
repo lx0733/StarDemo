@@ -95,7 +95,7 @@ public class Test01 {
 	}
 	@Test
 	public void fun() throws InterruptedException{
-		TreadPool pool = new TreadPool(8, 5, 2000);
+		ThreadPool pool = new ThreadPool(8, 5, 2000);
 		for (int i = 1; i <= 10; i++) {
 			final int num = i;
 			Runnable runnable = new Runnable() {
@@ -124,4 +124,6 @@ public class Test01 {
 		Fibonacci.initValue();
 		System.out.println(Fibonacci.getNextValue());
 	}
+	
+	
 }
